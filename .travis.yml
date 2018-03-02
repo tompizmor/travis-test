@@ -1,0 +1,18 @@
+language: bash
+sudo: required
+script: sudo bash buildall
+dist: xenial
+services:
+  - docker
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y debian-archive-keyring debootstrap
+  - curl -sSLO https://public.dhe.ibm.com/cloud/bluemix/cli/bluemix-cli/${IBM_CLI_VERSION}/IBM_Cloud_CLI_0.6.5_amd64.tar.gz
+  - tar -xzf IBM_Cloud_CLI_0.6.5_amd64.tar.gz
+  - ./Bluemix_CLI/install_bluemix_cli
+deploy:
+  provider: script
+  script: bash pushall
+  skip_cleanup: true
+  on:
+    branch: master
